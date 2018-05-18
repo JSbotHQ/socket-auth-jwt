@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO - JWT demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font: 13px Helvetica, Arial; }
+        form { padding: 3px; position: relative; width: 300px; display: grid;  }
+        form input { border: 1px solid #c5bfbf; padding: 10px; width: auto; }
+        form button { background: rgb(130, 224, 255); border: none; padding: 10px; }
+        form input, form button, h2 {margin: 3px }
+        .container { margin-left: 33%; margin-top: 10%; }
+        #info { display: none; }
+    </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    let getCookies = function(){
+      var pairs = document.cookie.split(";");
+      var cookies = {};
+      for (var i=0; i<pairs.length; i++){
+        var pair = pairs[i].split("=");
+        cookies[(pair[0]+'').trim()] = unescape(pair[1]);
+      }
+      return cookies;
+    }
+    let myCookies = getCookies()
+
+
+    $(()=> {
+        $('form').submit(()=>{
+
+            let username = $('#username').val()
+            let password = $('#password').val()
+            if(!username|| !password) {
+              alert('Please enter valid username/password')
+              return false;
+            }
+
+            let now = new Date();
+            let expireTime = now.getTime() + 1000*60*5;
+            now.setTime(expireTime);
+
+            let options = {
+              method: 'POST',
+              body: JSON.stringify({ username, password }),
+              headers: new Headers({ 'Content-Type': 'application/json' })
+            }
+            fetch('/login',options)
+             .then(res=>res.json())
+             .then(res=>{
+               document.cookie = 'sock_token='+res.token+';expires='+now.toGMTString();
+               $("#form").hide();
+               $("#info").show();
+             })
+            return false;
+        });
+    });
+</script>
+<body>
+  <div class="container">
+    <h2>A Messagner</h2>
+    <script>
+      if(getCookies().sock_token) {
+        $(()=> {
+          $("#form").hide();
+          $("#info").show();
+        })
+      }
+    </script>
+    <form id="form">
+      <input type="text" id="username" placeholder="username" autocomplete="off" />
+      <input type="password" id="password" placeholder="password" autocomplete="off" />
+      <button id="login">Send</button>
+    </form>
+    <div id="info">
+      Go to:
+      <a href="/chat">Chat</a><t> or
+      <a href="/group?room={name}">Group</a>
+    </div>
+  </div>
+
+</body>
+</html>
