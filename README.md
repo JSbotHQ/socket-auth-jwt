@@ -1,20 +1,8 @@
-# <%= answers['app:name'] %>
+# SocketIO-jwt demo
 
-[![NPM version][npm-image]][npm-url]
-[![Build status][ci-image]][ci-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-[![Code Climate][codeclimate-image]][codeclimate-url]
+- This socket authentication demo is developed based on the [socketio-jwt](https://github.com/auth0-community/socketio-jwt).
+- The JWT token is passed from the client side while establishing connection.
+On the server side, the token will be validated and connection will be established for a valid token.
 
-<%= answers['app:desc'] %>
-
-## License
-MIT
-
-[npm-image]: https://img.shields.io/npm/v/<%= answers['app:name'] %>.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/<%= answers['app:name'] %>
-[ci-image]: https://img.shields.io/travis/trailsjs/<%= answers['app:name'] %>/master.svg?style=flat-square
-[ci-url]: https://travis-ci.org/trailsjs/<%= answers['app:name'] %>
-[daviddm-image]: http://img.shields.io/david/trailsjs/<%= answers['app:name'] %>.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/trailsjs/<%= answers['app:name'] %>
-[codeclimate-image]: https://img.shields.io/codeclimate/github/trailsjs/<%= answers['app:name'] %>.svg?style=flat-square
-[codeclimate-url]: https://codeclimate.com/github/trailsjs/<%= answers['app:name'] %>
+- Start the server and Go to localhost:3000.
+- Login with any username/password. It will create a jwt token and will be passed for socket authentication.
